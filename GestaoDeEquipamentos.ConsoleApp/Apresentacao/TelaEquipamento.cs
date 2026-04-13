@@ -5,7 +5,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.Apresentacao;
 
 public class TelaEquipamento
 {
-    public RepositorioEquipamento repositorio = new RepositorioEquipamento();
+    public RepositorioEquipamento repositorioEquipamento;
 
     public string? ObterEscolhaMenuPrincipal()
     {
@@ -42,7 +42,7 @@ public class TelaEquipamento
             novoEquipamento.nome = Console.ReadLine();
 
             if (!string.IsNullOrWhiteSpace(novoEquipamento.nome) &&
-                novoEquipamento.nome.Length > 3)
+                novoEquipamento.nome.Length >= 3)
             {
                 break;
             }
@@ -68,7 +68,7 @@ public class TelaEquipamento
         Console.Write("Digite a data de fabricação do equipamento: ");
         novoEquipamento.dataFabricacao = Convert.ToDateTime(Console.ReadLine());
 
-        repositorio.Cadastrar(novoEquipamento);
+        repositorioEquipamento.Cadastrar(novoEquipamento);
 
         Console.WriteLine("---------------------------------");
         Console.WriteLine($"O registro \"{novoEquipamento.id}\" foi cadastrado com sucesso.");
@@ -91,7 +91,7 @@ public class TelaEquipamento
             "Id", "Nome", "Fabricante", "Preço de Aquisição", "Data de Fabricação"
         );
 
-        Equipamento?[] equipamentos = repositorio.SelecionarTodos();
+        Equipamento?[] equipamentos = repositorioEquipamento.SelecionarTodos();
 
         for (int i = 0; i < equipamentos.Length; i++)
         {
@@ -127,7 +127,7 @@ public class TelaEquipamento
             novoEquipamento.nome = Console.ReadLine();
 
             if (!string.IsNullOrWhiteSpace(novoEquipamento.nome) &&
-                novoEquipamento.nome.Length > 3)
+                novoEquipamento.nome.Length >= 3)
             {
                 break;
             }
@@ -140,7 +140,7 @@ public class TelaEquipamento
             novoEquipamento.fabricante = Console.ReadLine();
 
             if (!string.IsNullOrWhiteSpace(novoEquipamento.fabricante) &&
-                novoEquipamento.fabricante.Length > 2)
+                novoEquipamento.fabricante.Length >= 2)
             {
                 break;
             }
@@ -153,7 +153,7 @@ public class TelaEquipamento
         Console.Write("Digite a data de fabricação do equipamento: ");
         novoEquipamento.dataFabricacao = Convert.ToDateTime(Console.ReadLine());
 
-        bool conseguiuEditar = repositorio.Editar(idSelecionado, novoEquipamento);
+        bool conseguiuEditar = repositorioEquipamento.Editar(idSelecionado, novoEquipamento);
 
         if (!conseguiuEditar)
         {
@@ -186,7 +186,7 @@ public class TelaEquipamento
             "Id", "Nome", "Fabricante", "Preço de Aquisição", "Data de Fabricação"
         );
 
-        Equipamento?[] equipamentos = repositorio.SelecionarTodos();
+        Equipamento?[] equipamentos = repositorioEquipamento.SelecionarTodos();
 
         for (int i = 0; i < equipamentos.Length; i++)
         {
@@ -214,7 +214,7 @@ public class TelaEquipamento
                 break;
         } while (true);
 
-        bool conseguiuExcluir = repositorio.Excluir(idSelecionado);
+        bool conseguiuExcluir = repositorioEquipamento.Excluir(idSelecionado);
 
         if (conseguiuExcluir)
         {
@@ -247,7 +247,7 @@ public class TelaEquipamento
             "Id", "Nome", "Fabricante", "Preço de Aquisição", "Data de Fabricação"
         );
 
-        Equipamento?[] equipamentos = repositorio.SelecionarTodos();
+        Equipamento?[] equipamentos = repositorioEquipamento.SelecionarTodos();
 
         for (int i = 0; i < equipamentos.Length; i++)
         {
