@@ -1,7 +1,10 @@
-﻿internal partial class Program
+﻿using GestaoDeEquipamentos.ConsoleApp;
+
+internal partial class Program
 {
     private static void Main(string[] args)
     {
+        Equipamento[] equipamento = new Equipamento[100];
 
         while (true)
         {
@@ -26,6 +29,12 @@
 
             if (opcaoMenu == "1")
             {
+                Console.Clear();
+                Console.WriteLine("---------------------------------");
+                Console.WriteLine("Gestão de equipamentos");
+                Console.WriteLine("---------------------------------");
+                Console.WriteLine("Cadastro de equipamentos");
+                Console.WriteLine("---------------------------------");
 
             }
 
