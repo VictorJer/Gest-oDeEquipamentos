@@ -36,6 +36,57 @@ internal partial class Program
                 Console.WriteLine("Cadastro de equipamentos");
                 Console.WriteLine("---------------------------------");
 
+                Equipamento novoEquipamento = new Equipamento();
+
+                do
+                {
+                    System.Console.WriteLine("Digite o nome do equipamento");
+                    novoEquipamento.Nome = Console.ReadLine();
+
+                    if (!string.IsNullOrWhiteSpace(novoEquipamento.Nome) &&
+                        novoEquipamento.Nome.Length > 3)
+                    {
+                        break;
+                    }
+
+                } while (true);
+
+                do
+                {
+                    System.Console.WriteLine("Digite o nome do fabricante");
+                    novoEquipamento.Fabricante = Console.ReadLine();
+
+                    if (!string.IsNullOrWhiteSpace(novoEquipamento.Fabricante) &&
+                        novoEquipamento.Fabricante.Length > 2)
+                    {
+                        break;
+                    }
+
+                } while (true);
+
+                System.Console.WriteLine("Digite o preço do equipamento");
+                novoEquipamento.ValorEquipamento = Convert.ToDecimal(Console.ReadLine());
+
+                System.Console.WriteLine("Digite a data de fabricação");
+                novoEquipamento.DataFabricacao = Convert.ToDateTime(Console.ReadLine());
+
+                for (int i = 0; i < equipamento.Length; i++)
+                {
+                    Equipamento? e = equipamento[i];
+
+                    if (e == null)
+                    {
+                        equipamento[i] = novoEquipamento;
+                        break;
+                    }
+                }
+
+                Console.WriteLine("---------------------------------");
+                Console.WriteLine($"O registro {novoEquipamento.Nome} foi cadastrardo");
+                Console.WriteLine("---------------------------------");
+                Console.WriteLine("ENTER para continuar...");
+                Console.ReadLine();
+
             }
 
             else if (opcaoMenu == "2")
