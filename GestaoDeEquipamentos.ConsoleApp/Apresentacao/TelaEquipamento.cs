@@ -7,7 +7,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.Apresentacao;
 public class TelaEquipamento
 {
     public RepositorioEquipamento repositorio = new RepositorioEquipamento();
-    public string TelaEquipamentoMenu()
+    public string? TelaEquipamentoMenu()
     {
         Console.Clear();
         Console.WriteLine("---------------------------------");

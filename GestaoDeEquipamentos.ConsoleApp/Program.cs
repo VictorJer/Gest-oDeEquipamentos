@@ -8,37 +8,84 @@ internal partial class Program
     private static void Main(string[] args)
     {
         TelaEquipamento telaEquipamento = new TelaEquipamento();
+        TelaChamado telaChamado = new TelaChamado();
 
 
         while (true)
         {
+            Console.Clear();
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine("Gestão de Chamados");
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine("1 - Gerenciar equipamentos");
+            Console.WriteLine("2 - Gerenciar Chamados");
+            Console.WriteLine("S - Sair");
+            Console.WriteLine("---------------------------------");
+            Console.Write("> ");
+            string? opcaoMenuPrincipal = Console.ReadLine()?.ToUpper();
 
-            var opcaoMenu = telaEquipamento.TelaEquipamentoMenu();
-
-            if (opcaoMenu == "S")
+            if (opcaoMenuPrincipal == "1")
             {
-                Console.Clear();
-                break;
+                var opcaoMenuEquipamento = telaEquipamento.TelaEquipamentoMenu();
+
+                if (opcaoMenuEquipamento == "S")
+                {
+                    Console.Clear();
+                    break;
+                }
+
+                if (opcaoMenuEquipamento == "1")
+                {
+                    telaEquipamento.Cadastrar();
+                }
+
+                else if (opcaoMenuEquipamento == "2")
+                {
+                    telaEquipamento.Editar();
+                }
+
+                else if (opcaoMenuEquipamento == "3")
+                {
+                    telaEquipamento.Excluir();
+                }
+
+                else if (opcaoMenuEquipamento == "4")
+                {
+                    telaEquipamento.Visualizar();
+                }
             }
 
-            if (opcaoMenu == "1")
+            else if (opcaoMenuPrincipal == "2")
             {
-                telaEquipamento.Cadastrar();
-            }
+                var opcaoMenuChamado = telaChamado.TelaEquipamentoMenu();
 
-            else if (opcaoMenu == "2")
-            {
-                telaEquipamento.Editar();
-            }
 
-            else if (opcaoMenu == "3")
-            {
-                telaEquipamento.Excluir();
-            }
+                if (opcaoMenuChamado == "S")
+                {
+                    Console.Clear();
+                    break;
+                }
 
-            else if (opcaoMenu == "4")
-            {
-                telaEquipamento.Visualizar();
+                if (opcaoMenuChamado == "1")
+                {
+                    telaChamado.Cadastrar();
+                }
+
+                else if (opcaoMenuChamado == "2")
+                {
+                    telaChamado.Editar();
+                }
+
+                else if (opcaoMenuChamado == "3")
+                {
+                    telaChamado.Excluir();
+                }
+
+                else if (opcaoMenuChamado == "4")
+                {
+                    telaChamado.VisualizarTodos();
+                }
+
             }
         }
     }
