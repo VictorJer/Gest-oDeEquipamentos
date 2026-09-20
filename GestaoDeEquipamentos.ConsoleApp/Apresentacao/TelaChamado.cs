@@ -1,8 +1,10 @@
+using GestaoDeEquipamentos.ConsoleApp.Infraestrutura;
+
 namespace GestaoDeEquipamentos.ConsoleApp.Apresentacao
 {
     public class TelaChamado
     {
-
+        public RepositorioChamado? repositorioChamado;
         public string? TelaEquipamentoMenu()
         {
             Console.Clear();

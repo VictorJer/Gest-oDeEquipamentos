@@ -2,13 +2,20 @@
 using System.Security.Cryptography;
 using GestaoDeEquipamentos.ConsoleApp.Apresentacao;
 using GestaoDeEquipamentos.ConsoleApp.Dominio;
+using GestaoDeEquipamentos.ConsoleApp.Infraestrutura;
 
 internal partial class Program
 {
     private static void Main(string[] args)
     {
+        RepositorioEquipamento repositorioEquipamento = new RepositorioEquipamento();
+        RepositorioChamado repositorioChamado = new RepositorioChamado();
+
         TelaEquipamento telaEquipamento = new TelaEquipamento();
+        telaEquipamento.repositorioEquipamento = repositorioEquipamento;
+
         TelaChamado telaChamado = new TelaChamado();
+        telaChamado.repositorioChamado = repositorioChamado;
 
 
         while (true)
@@ -24,68 +31,81 @@ internal partial class Program
             Console.Write("> ");
             string? opcaoMenuPrincipal = Console.ReadLine()?.ToUpper();
 
-            if (opcaoMenuPrincipal == "1")
+            if (opcaoMenuPrincipal == "S")
             {
-                var opcaoMenuEquipamento = telaEquipamento.TelaEquipamentoMenu();
+                Console.Clear();
+                break;
+            }
 
-                if (opcaoMenuEquipamento == "S")
+            while (true)
+            {
+                if (opcaoMenuPrincipal == "1")
                 {
-                    Console.Clear();
-                    break;
-                }
+                    var opcaoMenuEquipamento = telaEquipamento.TelaEquipamentoMenu();
 
-                if (opcaoMenuEquipamento == "1")
-                {
-                    telaEquipamento.Cadastrar();
-                }
+                    if (opcaoMenuEquipamento == "S")
+                    {
+                        Console.Clear();
+                        break;
+                    }
 
-                else if (opcaoMenuEquipamento == "2")
-                {
-                    telaEquipamento.Editar();
-                }
+                    if (opcaoMenuEquipamento == "1")
+                    {
+                        telaEquipamento.Cadastrar();
+                    }
 
-                else if (opcaoMenuEquipamento == "3")
-                {
-                    telaEquipamento.Excluir();
-                }
+                    else if (opcaoMenuEquipamento == "2")
+                    {
+                        telaEquipamento.Editar();
+                    }
 
-                else if (opcaoMenuEquipamento == "4")
-                {
-                    telaEquipamento.Visualizar();
+                    else if (opcaoMenuEquipamento == "3")
+                    {
+                        telaEquipamento.Excluir();
+                    }
+
+                    else if (opcaoMenuEquipamento == "4")
+                    {
+                        telaEquipamento.Visualizar();
+                    }
                 }
             }
 
-            else if (opcaoMenuPrincipal == "2")
+
+            while (true)
             {
-                var opcaoMenuChamado = telaChamado.TelaEquipamentoMenu();
-
-
-                if (opcaoMenuChamado == "S")
+                if (opcaoMenuPrincipal == "2")
                 {
-                    Console.Clear();
-                    break;
-                }
+                    var opcaoMenuChamado = telaChamado.TelaEquipamentoMenu();
 
-                if (opcaoMenuChamado == "1")
-                {
-                    telaChamado.Cadastrar();
-                }
 
-                else if (opcaoMenuChamado == "2")
-                {
-                    telaChamado.Editar();
-                }
+                    if (opcaoMenuChamado == "S")
+                    {
+                        Console.Clear();
+                        break;
+                    }
 
-                else if (opcaoMenuChamado == "3")
-                {
-                    telaChamado.Excluir();
-                }
+                    if (opcaoMenuChamado == "1")
+                    {
+                        telaChamado.Cadastrar();
+                    }
 
-                else if (opcaoMenuChamado == "4")
-                {
-                    telaChamado.VisualizarTodos();
-                }
+                    else if (opcaoMenuChamado == "2")
+                    {
+                        telaChamado.Editar();
+                    }
 
+                    else if (opcaoMenuChamado == "3")
+                    {
+                        telaChamado.Excluir();
+                    }
+
+                    else if (opcaoMenuChamado == "4")
+                    {
+                        telaChamado.VisualizarTodos();
+                    }
+
+                }
             }
         }
     }

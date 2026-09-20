@@ -6,7 +6,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.Apresentacao;
 
 public class TelaEquipamento
 {
-    public RepositorioEquipamento repositorio = new RepositorioEquipamento();
+    public RepositorioEquipamento repositorioEquipamento;
     public string? TelaEquipamentoMenu()
     {
         Console.Clear();
@@ -69,7 +69,7 @@ public class TelaEquipamento
         novoEquipamento.DataFabricacao = Convert.ToDateTime(Console.ReadLine());
 
 
-        repositorio.Cadastrar(novoEquipamento); // cadastro do aquipamento no repositorio
+        repositorioEquipamento.Cadastrar(novoEquipamento); // cadastro do aquipamento no repositorioEquipamento
 
 
         Console.WriteLine("---------------------------------");
@@ -81,7 +81,7 @@ public class TelaEquipamento
 
     public void Editar()
     {
-        Equipamento?[] equipamentos = repositorio.SelecionarTodos();
+        Equipamento?[] equipamentos = repositorioEquipamento.SelecionarTodos();
 
         Console.WriteLine("---------------------------------");
         Console.WriteLine("Gestão de equipamentos");
@@ -151,7 +151,7 @@ public class TelaEquipamento
         System.Console.WriteLine("Digite a data de fabricação");
         novoEquipamento.DataFabricacao = Convert.ToDateTime(Console.ReadLine());
 
-        var result = repositorio.Editar(idSelecionado, novoEquipamento);
+        var result = repositorioEquipamento.Editar(idSelecionado, novoEquipamento);
 
 
         if (!result)
@@ -168,7 +168,7 @@ public class TelaEquipamento
 
     internal void Excluir()
     {
-        Equipamento?[] equipamentos = repositorio.SelecionarTodos();
+        Equipamento?[] equipamentos = repositorioEquipamento.SelecionarTodos();
 
         // Exibçãod e equipamentos
         Console.WriteLine("---------------------------------");
@@ -212,7 +212,7 @@ public class TelaEquipamento
         Console.WriteLine("ENTER para continuar...");
         Console.ReadLine();
 
-        var result = repositorio.Excluir(idSelecionado);
+        var result = repositorioEquipamento.Excluir(idSelecionado);
 
         if (result == true)
         {
@@ -230,7 +230,7 @@ public class TelaEquipamento
 
     internal void Visualizar()
     {
-        Equipamento?[] equipamentos = repositorio.SelecionarTodos();
+        Equipamento?[] equipamentos = repositorioEquipamento.SelecionarTodos();
 
         Console.WriteLine("---------------------------------");
         Console.WriteLine("Gestão de equipamentos");
