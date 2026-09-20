@@ -156,8 +156,38 @@ public class TelaChamado
 
         if (deveExibirCabecalho)
         {
+<<<<<<< HEAD
             Console.WriteLine("---------------------------------");
             Console.Write("Digite ENTER para continuar...");
+=======
+            Chamado?[] chamados = repositorioChamado.SelecionarTodos();
+
+
+            if (mostrarTela)
+            {
+                Console.WriteLine("---------------------------------");
+                Console.WriteLine("Gestão de equipamentos");
+                Console.WriteLine("---------------------------------");
+                Console.WriteLine("Visualisar Chamados");
+                Console.WriteLine("---------------------------------");
+            }
+
+            Console.WriteLine("{0, -7} | {1, -15} | {2, -15} | {3, -22} | {4, -10}",
+                           "Id", "titulo", "Descrição", "Data Abertura", "Nome equipamento");
+
+            for (int i = 0; i < chamados.Length; i++)
+            {
+                Chamado? e = chamados[i];
+
+                if (e == null)
+                    continue;
+
+                Console.WriteLine("{0, -7} | {1, -15} | {2, -15} | {3, -22} | {4, -10}",
+                                    e.Id, e.Titulo, e.Descricao, e.DataAbertura.ToShortDateString(), e.equipamento.Nome);
+            }
+
+            System.Console.WriteLine("ENTER para continuar...");
+>>>>>>> 4d338eb (ADD remoção de parâmetro desnecessário na exibição de chamados na classe TelaChamado)
             Console.ReadLine();
         }
     }
