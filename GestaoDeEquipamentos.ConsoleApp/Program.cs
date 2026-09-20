@@ -16,6 +16,7 @@ internal partial class Program
 
         TelaChamado telaChamado = new TelaChamado();
         telaChamado.repositorioChamado = repositorioChamado;
+        telaChamado.repositorioEquipamento = repositorioEquipamento;
 
 
         while (true)
@@ -69,6 +70,10 @@ internal partial class Program
                         telaEquipamento.Visualizar();
                     }
                 }
+                else
+                {
+                    break;
+                }
             }
 
 
@@ -105,6 +110,10 @@ internal partial class Program
                         telaChamado.VisualizarTodos();
                     }
 
+                }
+                else
+                {
+                    break;
                 }
             }
         }
