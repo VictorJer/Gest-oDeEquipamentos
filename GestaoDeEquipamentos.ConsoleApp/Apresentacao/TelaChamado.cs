@@ -250,7 +250,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.Apresentacao
                     continue;
 
                 Console.WriteLine("{0, -7} | {1, -15} | {2, -15} | {3, -22} | {4, -10}",
-                                    e.Id, e.Titulo, e.Descricao, e.DataAbertura, e.equipamento.Nome);
+                                    e.Id, e.Titulo, e.Descricao, e.DataAbertura.ToShortDateString(), e.equipamento.Nome, 0);
             }
 
             System.Console.WriteLine("ENTER para continuar...");
