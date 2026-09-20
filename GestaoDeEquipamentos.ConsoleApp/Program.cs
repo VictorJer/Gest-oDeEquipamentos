@@ -1,325 +1,120 @@
 ﻿using System.Runtime.ConstrainedExecution;
 using System.Security.Cryptography;
-using GestaoDeEquipamentos.ConsoleApp;
+using GestaoDeEquipamentos.ConsoleApp.Apresentacao;
+using GestaoDeEquipamentos.ConsoleApp.Dominio;
+using GestaoDeEquipamentos.ConsoleApp.Infraestrutura;
 
 internal partial class Program
 {
     private static void Main(string[] args)
     {
-        Equipamento[] equipamentos = new Equipamento[100];
+        RepositorioEquipamento repositorioEquipamento = new RepositorioEquipamento();
+        RepositorioChamado repositorioChamado = new RepositorioChamado();
 
-        Equipamento equipamentoTest = new Equipamento();
-        equipamentoTest.Id = Convert.ToHexString(RandomNumberGenerator.GetBytes(20)).ToLower().Substring(0, 7);
-        equipamentoTest.Nome = "dell g15";
-        equipamentoTest.Fabricante = "vitu";
-        equipamentoTest.ValorEquipamento = 5500;
-        equipamentoTest.DataFabricacao = DateTime.Now;
+        TelaEquipamento telaEquipamento = new TelaEquipamento();
+        telaEquipamento.repositorioEquipamento = repositorioEquipamento;
 
-        equipamentos[0] = equipamentoTest;
+        TelaChamado telaChamado = new TelaChamado();
+        telaChamado.repositorioChamado = repositorioChamado;
+        telaChamado.repositorioEquipamento = repositorioEquipamento;
+
 
         while (true)
         {
-            // Console.Clear();
+            Console.Clear();
             Console.WriteLine("---------------------------------");
-            Console.WriteLine("Gestão de Equipamentos");
+            Console.WriteLine("Gestão de Chamados");
             Console.WriteLine("---------------------------------");
-            Console.WriteLine("1 - Cadastrar equipamento");
-            Console.WriteLine("2 - Editar equipamento");
-            Console.WriteLine("3 - Excluir equipamento");
-            Console.WriteLine("4 - Visualizar equipamentos");
+            Console.WriteLine("1 - Gerenciar equipamentos");
+            Console.WriteLine("2 - Gerenciar Chamados");
             Console.WriteLine("S - Sair");
             Console.WriteLine("---------------------------------");
             Console.Write("> ");
-            string? opcaoMenu = Console.ReadLine()?.ToUpper();
+            string? opcaoMenuPrincipal = Console.ReadLine()?.ToUpper();
 
-            if (opcaoMenu == "S")
+            if (opcaoMenuPrincipal == "S")
             {
                 Console.Clear();
                 break;
             }
 
-            if (opcaoMenu == "1")
+            while (true)
             {
-                Console.Clear();
-                Console.WriteLine("---------------------------------");
-                Console.WriteLine("Gestão de equipamentos");
-                Console.WriteLine("---------------------------------");
-                Console.WriteLine("Cadastro de equipamentos");
-                Console.WriteLine("---------------------------------");
-
-                Equipamento novoEquipamento = new Equipamento();
-
-                do
+                if (opcaoMenuPrincipal == "1")
                 {
-                    System.Console.WriteLine("Digite o nome do equipamento");
-                    novoEquipamento.Nome = Console.ReadLine();
+                    var opcaoMenuEquipamento = telaEquipamento.TelaEquipamentoMenu();
 
-                    if (!string.IsNullOrWhiteSpace(novoEquipamento.Nome) &&
-                        novoEquipamento.Nome.Length > 3)
+                    if (opcaoMenuEquipamento == "S")
                     {
+                        Console.Clear();
                         break;
                     }
 
-                } while (true);
-
-                do
-                {
-                    System.Console.WriteLine("Digite o nome do fabricante");
-                    novoEquipamento.Fabricante = Console.ReadLine();
-
-                    if (!string.IsNullOrWhiteSpace(novoEquipamento.Fabricante) &&
-                        novoEquipamento.Fabricante.Length > 2)
+                    if (opcaoMenuEquipamento == "1")
                     {
-                        break;
+                        telaEquipamento.Cadastrar();
                     }
 
-                } while (true);
-
-                System.Console.WriteLine("Digite o preço do equipamento");
-                novoEquipamento.ValorEquipamento = Convert.ToDecimal(Console.ReadLine());
-
-                System.Console.WriteLine("Digite a data de fabricação");
-                novoEquipamento.DataFabricacao = Convert.ToDateTime(Console.ReadLine());
-
-                novoEquipamento.Id = Convert.ToHexString(RandomNumberGenerator.GetBytes(20)).ToLower().Substring(0, 7);
-
-                for (int i = 0; i < equipamentos.Length; i++)
-                {
-                    Equipamento? e = equipamentos[i];
-
-                    if (e == null)
+                    else if (opcaoMenuEquipamento == "2")
                     {
-                        equipamentos[i] = novoEquipamento;
-                        break;
+                        telaEquipamento.Editar();
+                    }
+
+                    else if (opcaoMenuEquipamento == "3")
+                    {
+                        telaEquipamento.Excluir();
+                    }
+
+                    else if (opcaoMenuEquipamento == "4")
+                    {
+                        telaEquipamento.Visualizar();
                     }
                 }
-
-                Console.WriteLine("---------------------------------");
-                Console.WriteLine($"O registro {novoEquipamento.Nome} foi cadastrardo");
-                Console.WriteLine("---------------------------------");
-                Console.WriteLine("ENTER para continuar...");
-                Console.ReadLine();
-
+                else
+                {
+                    break;
+                }
             }
 
-            else if (opcaoMenu == "2")
+
+            while (true)
             {
-                Console.WriteLine("---------------------------------");
-                Console.WriteLine("Gestão de equipamentos");
-                Console.WriteLine("---------------------------------");
-                Console.WriteLine("Editar equipamento");
-                Console.WriteLine("---------------------------------");
-
-
-                Console.WriteLine("{0, -7} | {1, -15} | {2, -15} | {3, -22} | {4, -10}",
-                                    "Id", "Nome", "Fabricanrte", "Preço Equipamento", "Data de fabricação");
-
-                for (int i = 0; i < equipamentos.Length; i++)
+                if (opcaoMenuPrincipal == "2")
                 {
-                    Equipamento e = equipamentos[i];
-
-                    if (e == null)
-                        continue;
-
-                    Console.WriteLine("{0, -7} | {1, -15} | {2, -15} | {3, -22} | {4, -10}",
-                                        e.Id, e.Nome, e.Fabricante, e.ValorEquipamento.ToString("C2"), e.DataFabricacao.ToShortDateString());
-                }
+                    var opcaoMenuChamado = telaChamado.TelaEquipamentoMenu();
 
 
-
-                // Selecaõ do Equipamento
-                string? idSelecionado;
-
-                do
-                {
-                    System.Console.WriteLine("Qual o \"Id\" do equipamento:");
-                    idSelecionado = Convert.ToString(Console.ReadLine());
-
-                    if (!string.IsNullOrWhiteSpace(idSelecionado) && idSelecionado.Length == 7)
-                        break;
-
-                } while (true);
-
-                Console.WriteLine("---------------------------------");
-                Console.WriteLine($"O Id selecionado {idSelecionado}");
-                Console.WriteLine("---------------------------------");
-                Console.WriteLine("ENTER para continuar...");
-                Console.ReadLine();
-
-
-                Equipamento? equipamentoSelecionado = null;
-
-                for (int i = 0; i < equipamentos.Length; i++)
-                {
-                    Equipamento e = equipamentos[i];
-
-                    if (e == null)
-                        continue;
-
-                    if (e.Id == idSelecionado)
+                    if (opcaoMenuChamado == "S")
                     {
-                        equipamentoSelecionado = e;
-                        break;
-                    }
-                }
-
-
-                if (equipamentoSelecionado == null)
-                {
-                    Console.WriteLine("---------------------------------");
-                    Console.WriteLine($"O Id selecionado {idSelecionado} não foi encontrado");
-                    Console.WriteLine("---------------------------------");
-                    Console.WriteLine("ENTER para continuar...");
-                    Console.ReadLine();
-                    continue;
-                }
-
-
-                // Edição do equipamento
-                Equipamento EditarEquipamento = new Equipamento();
-
-                do
-                {
-                    System.Console.WriteLine("Digite o nome do equipamento");
-                    EditarEquipamento.Nome = Console.ReadLine();
-
-                    if (!string.IsNullOrWhiteSpace(EditarEquipamento.Nome) &&
-                        EditarEquipamento.Nome.Length > 3)
-                    {
+                        Console.Clear();
                         break;
                     }
 
-                } while (true);
-
-                do
-                {
-                    System.Console.WriteLine("Digite o nome do fabricante");
-                    EditarEquipamento.Fabricante = Console.ReadLine();
-
-                    if (!string.IsNullOrWhiteSpace(EditarEquipamento.Fabricante) &&
-                        EditarEquipamento.Fabricante.Length > 2)
+                    if (opcaoMenuChamado == "1")
                     {
-                        break;
+                        telaChamado.Cadastrar();
                     }
 
-                } while (true);
-
-                System.Console.WriteLine("Digite o preço do equipamento");
-                EditarEquipamento.ValorEquipamento = Convert.ToDecimal(Console.ReadLine());
-
-                System.Console.WriteLine("Digite a data de fabricação");
-                EditarEquipamento.DataFabricacao = Convert.ToDateTime(Console.ReadLine());
-
-
-                equipamentoSelecionado.Nome = EditarEquipamento.Nome;
-                equipamentoSelecionado.Fabricante = EditarEquipamento.Fabricante;
-                equipamentoSelecionado.ValorEquipamento = EditarEquipamento.ValorEquipamento;
-                equipamentoSelecionado.DataFabricacao = EditarEquipamento.DataFabricacao;
-            }
-
-            else if (opcaoMenu == "3")
-            {
-                // Exibçãod e equipamentos
-                Console.WriteLine("---------------------------------");
-                Console.WriteLine("Gestão de equipamentos");
-                Console.WriteLine("---------------------------------");
-                Console.WriteLine("Exclusao de equipamento");
-                Console.WriteLine("---------------------------------");
-
-
-                Console.WriteLine("{0, -7} | {1, -15} | {2, -15} | {3, -22} | {4, -10}",
-                                    "Id", "Nome", "Fabricanrte", "Preço Equipamento", "Data de fabricação");
-
-                for (int i = 0; i < equipamentos.Length; i++)
-                {
-                    Equipamento e = equipamentos[i];
-
-                    if (e == null)
-                        continue;
-
-                    Console.WriteLine("{0, -7} | {1, -15} | {2, -15} | {3, -22} | {4, -10}",
-                                        e.Id, e.Nome, e.Fabricante, e.ValorEquipamento.ToString("C2"), e.DataFabricacao.ToShortDateString());
-                }
-
-
-                // Selecao de Id
-                string? idSelecionado;
-
-                do
-                {
-                    System.Console.WriteLine("Qual o \"Id\" do equipamento:");
-                    idSelecionado = Convert.ToString(Console.ReadLine());
-
-                    if (!string.IsNullOrWhiteSpace(idSelecionado) && idSelecionado.Length == 7)
-                        break;
-
-                } while (true);
-
-                Console.WriteLine("---------------------------------");
-                Console.WriteLine($"O Id selecionado {idSelecionado}");
-                Console.WriteLine("---------------------------------");
-                Console.WriteLine("ENTER para continuar...");
-                Console.ReadLine();
-
-
-                var result = false;
-
-                for (int i = 0; i < equipamentos.Length; i++)
-                {
-                    Equipamento e = equipamentos[i];
-
-                    if (e == null)
-                        continue;
-
-                    if (e.Id == idSelecionado)
+                    else if (opcaoMenuChamado == "2")
                     {
-                        equipamentos[i] = null;
-                        result = true;
-                        break;
+                        telaChamado.Editar();
                     }
-                }
 
-                if (result == true)
+                    else if (opcaoMenuChamado == "3")
+                    {
+                        telaChamado.Excluir();
+                    }
+
+                    else if (opcaoMenuChamado == "4")
+                    {
+                        telaChamado.VisualizarTodos(true);
+                    }
+
+                }
+                else
                 {
-                    System.Console.WriteLine("Equipamento Excluido");
-                    System.Console.WriteLine("ENTER para continuar...");
-                    Console.ReadLine();
+                    break;
                 }
-                else if (result == false)
-                {
-                    System.Console.WriteLine("Id não encontrado");
-                    System.Console.WriteLine("ENTER para continuar...");
-                    Console.ReadLine();
-                }
-
-
-            }
-
-            else if (opcaoMenu == "4")
-            {
-                Console.WriteLine("---------------------------------");
-                Console.WriteLine("Gestão de equipamentos");
-                Console.WriteLine("---------------------------------");
-                Console.WriteLine("Visualisar equipamentos");
-                Console.WriteLine("---------------------------------");
-
-
-                Console.WriteLine("{0, -7} | {1, -15} | {2, -15} | {3, -22} | {4, -10}",
-                                    "Id", "Nome", "Fabricanrte", "Preço Equipamento", "Data de fabricação");
-
-                for (int i = 0; i < equipamentos.Length; i++)
-                {
-                    Equipamento e = equipamentos[i];
-
-                    if (e == null)
-                        continue;
-
-                    Console.WriteLine("{0, -7} | {1, -15} | {2, -15} | {3, -22} | {4, -10}",
-                                        e.Id, e.Nome, e.Fabricante, e.ValorEquipamento.ToString("C2"), e.DataFabricacao.ToShortDateString());
-                }
-
-                System.Console.WriteLine("ENTER para continuar...");
-                Console.ReadLine();
             }
         }
     }
