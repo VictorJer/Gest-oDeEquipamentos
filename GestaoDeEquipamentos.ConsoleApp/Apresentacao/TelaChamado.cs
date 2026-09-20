@@ -1,3 +1,4 @@
+using System.Reflection.Metadata;
 using GestaoDeEquipamentos.ConsoleApp.Dominio;
 using GestaoDeEquipamentos.ConsoleApp.Infraestrutura;
 
@@ -108,23 +109,135 @@ namespace GestaoDeEquipamentos.ConsoleApp.Apresentacao
 
         public void Editar()
         {
+            Equipamento?[] equipamentos = repositorioEquipamento.SelecionarTodos();
+
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine("Gestão de equipamentos");
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine("Editar Chamados");
+            Console.WriteLine("---------------------------------");
+
+            VisualizarTodos(false);
+            System.Console.WriteLine("qual o Id do chamado;");
+            var idSelecionado = Console.ReadLine();
+
+            Chamado novoChamado = new Chamado();
+
+            while (true)
+            {
+                System.Console.WriteLine("Titulo do chamado:");
+                novoChamado.Titulo = Console.ReadLine()!;
+
+                if (!string.IsNullOrWhiteSpace(novoChamado.Titulo) && novoChamado.Titulo.Length is < 100 and > 2)
+                {
+                    break;
+                }
+            }
+
+            while (true)
+            {
+                System.Console.WriteLine("Descrição do chamado:");
+                novoChamado.Descricao = Console.ReadLine()!;
+
+                if (!string.IsNullOrWhiteSpace(novoChamado.Descricao) && novoChamado.Descricao.Length is < 100 and > 2)
+                {
+                    break;
+                }
+            }
+
+            Console.WriteLine("{0, -7} | {1, -15} | {2, -15} | {3, -22} | {4, -10}",
+                    "Id", "Nome", "Fabricanrte", "Preço Equipamento", "Data de fabricação");
+
+            for (int i = 0; i < equipamentos.Length; i++)
+            {
+                Equipamento? e = equipamentos[i];
+
+                if (e == null)
+                    continue;
+
+                Console.WriteLine("{0, -7} | {1, -15} | {2, -15} | {3, -22} | {4, -10}",
+                                    e.Id, e.Nome, e.Fabricante, e.ValorEquipamento.ToString("C2"), e.DataFabricacao.ToShortDateString());
+            }
+
+            string? idEquipamentoSelecionado;
+            do
+            {
+                System.Console.WriteLine("Qual o \"Id\" do equipamento:");
+                idEquipamentoSelecionado = Convert.ToString(Console.ReadLine());
+
+                if (!string.IsNullOrWhiteSpace(idSelecionado) && idSelecionado.Length == 7)
+                    break;
+
+            } while (true);
+
+            Equipamento equipamentoSelecionado = repositorioEquipamento
+                                                    .SelecionarEquipamentoPorId(idEquipamentoSelecionado);
+
+            novoChamado.equipamento = equipamentoSelecionado;
+
+            var result = repositorioChamado.Editar(idSelecionado, novoChamado);
+
+            if (result)
+            {
+                System.Console.WriteLine("chamado editado");
+                System.Console.WriteLine("ENTER para continuar");
+                Console.ReadLine();
+                return;
+            }
+
+            if (result)
+            {
+                System.Console.WriteLine("não foi editado");
+                System.Console.WriteLine("ENTER para continuar");
+                Console.ReadLine();
+                return;
+            }
 
         }
 
         public void Excluir()
         {
-
-        }
-
-        public void VisualizarTodos()
-        {
-            Chamado?[] chamados = repositorioChamado.SelecionarTodos();
-
             Console.WriteLine("---------------------------------");
             Console.WriteLine("Gestão de equipamentos");
             Console.WriteLine("---------------------------------");
-            Console.WriteLine("Visualisar Chamados");
+            Console.WriteLine("Excluir Chamados");
             Console.WriteLine("---------------------------------");
+
+            VisualizarTodos(false);
+            System.Console.WriteLine("qual o Id do chamado;");
+            var idSelecionado = Console.ReadLine();
+
+            var result = repositorioChamado.Excluir(idSelecionado);
+
+            if (result)
+            {
+                System.Console.WriteLine("chamado excluido");
+                System.Console.WriteLine("ENTER para continuar");
+                Console.ReadLine();
+                return;
+            }
+            else
+            {
+                System.Console.WriteLine("não foi excluido");
+                System.Console.WriteLine("ENTER para continuar");
+                Console.ReadLine();
+                return;
+            }
+        }
+
+        public void VisualizarTodos(bool mostrarTela)
+        {
+            Chamado?[] chamados = repositorioChamado.SelecionarTodos();
+
+
+            if (mostrarTela)
+            {
+                Console.WriteLine("---------------------------------");
+                Console.WriteLine("Gestão de equipamentos");
+                Console.WriteLine("---------------------------------");
+                Console.WriteLine("Visualisar Chamados");
+                Console.WriteLine("---------------------------------");
+            }
 
             Console.WriteLine("{0, -7} | {1, -15} | {2, -15} | {3, -22} | {4, -10}",
                            "Id", "titulo", "Descrição", "Data Abertura", "Nome equipamento");

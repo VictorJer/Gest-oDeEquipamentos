@@ -107,7 +107,7 @@ internal partial class Program
 
                     else if (opcaoMenuChamado == "4")
                     {
-                        telaChamado.VisualizarTodos();
+                        telaChamado.VisualizarTodos(true);
                     }
 
                 }
